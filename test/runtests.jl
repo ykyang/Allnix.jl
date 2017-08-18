@@ -2,4 +2,5 @@ using Allnix
 using Base.Test
 
 # write your own tests here
-@test 1 == 2
+include("mod1ch2.jl")
+@test 2 == 2
