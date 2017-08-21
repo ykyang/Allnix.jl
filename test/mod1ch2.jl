@@ -97,10 +97,6 @@ end
 count = 100
 # source = [1, 2, ... 100]
 source = Vector{Float64}(linspace(1,100.,count))
-### splice! ###
-v = copy(source)
-splice!(v, 55)
-@test v[55] == 56
 
 ####  append!  ####
 v = copy(source)
@@ -135,15 +131,35 @@ v = copy(source)
 @test shift!(v) == 1.0
 # v = 2,...10
 @test length(v) == count - 1
+
+### splice! ###
+v = copy(source)
+splice!(v, 55)
+@test v[55] == 56
+
+### in ###
+v = copy(source)
+@test in(55, v)
+
+### sort ###
+v = Vector{Float64}(linspace(100.,1.,count))
+@test v[1] == 100.0
+sort!(v) # mutable version
+@test v[1] == 1.0
+
+v = Vector{Float64}(linspace(100.,1.,count))
+@test v[1] == 100.0
+t = sort(v) # immutable version
+@test v[1] == 100.0
+@test t[1] == 1.0
 end
 
 @testset "dot operator" begin
 v = Vector{Float64}()
 Base.resize!(v, 100)
 
-# --------- #
+# - Assign value to every element - #
 v .= 13.0
-# --------- #
 
 for i in v
     @test i == 13.0
