@@ -78,34 +78,63 @@ for i in v
 end
 end
 
-@testset "Common Array Operators" begin
-b = 2:10
-####  append!  ####
-v = Vector{Float64}()
-append!(v, 13.0)
-@test length(v) == 1
-@test v[1] == 13.0
+# ------------------------------------------ #
+# - Deep copy of array with primitive type - #
+# ------------------------------------------ #
+@testset "copy" begin
+count = 100
+v = Vector{Float64}(linspace(1,100,count))
+w = copy(v)
+# - Expect deep copy - #
+@test pointer_from_objref(v) != pointer_from_objref(w)
+@test length(w) == count
+for i in 1:count
+    @test w[i] == v[i]
+end
+end
 
-append!(v,b)
-# v = 13, 2, ..., 10
-@test length(v) == 10
+@testset "Common Array Operators" begin
+count = 100
+# source = [1, 2, ... 100]
+source = Vector{Float64}(linspace(1,100.,count))
+### splice! ###
+v = copy(source)
+splice!(v, 55)
+@test v[55] == 56
+
+####  append!  ####
+v = copy(source)
+append!(v, 13.0)
+@test length(v) == 1 + count
+@test v[1+count] == 13.0
+
+v = copy(source)
+b = copy(source)
+append!(v, b)
+@test length(v) == 2*count
 @test v[2] == 2.0
-@test v[10] == 10.0
+@test v[101] == 1.0
+@test v[200] == 100
 
 ### push! ###
-tmp = push!(v, 11) # return v reference
-@test length(v) == 11
-@test pointer_from_objref(tmp) == pointer_from_objref(v)
+v = copy(source)
+w = push!(v, 101) # return v reference
+@test length(v) == count + 1
+# w and v point to the same array
+@test pointer_from_objref(w) == pointer_from_objref(v)
 
 #### pop! ####
 # - Remove the last item and returns it
-@test pop!(v) == 11.0
-@test length(v) == 10
+v = copy(source)
+@test pop!(v) == 100.0
+@test length(v) == count - 1
 
-# v = 13, 2,... 10
-@test shift!(v) == 13.0
-@test length(v) == 9
-
+### shift! ###
+# - Remove the first item and returns it
+v = copy(source)
+@test shift!(v) == 1.0
+# v = 2,...10
+@test length(v) == count - 1
 end
 
 @testset "dot operator" begin

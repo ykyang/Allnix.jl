@@ -2,7 +2,7 @@
 ## Julia REPL
 Use ";" to switch to the shell mode.
 * `methodswith(type)`: Return an array of methods with an argument of type type.
-
+* `whos()`, `workspace()`, `reload("module name")`
 ## Test
 Run tests using the following three options
 * From Julia REPL, run `Pkg.test("Allnix")` from package directory
@@ -24,3 +24,10 @@ Use `Pkg.add("package name")` to install packages.  Some common packages
 
 ### Julia Documentation
 `test/julia_doc.jl`: General Julia language features from [Julia Documentation](https://docs.julialang.org/en/stable/).
+
+### Jupyter
+Install `IJulia` by `Pkg.add("IJulia")`.  In Julia REPL,
+```julia
+using IJulia
+notebook()
+```

@@ -1,4 +1,9 @@
 # - My first function - #
+"""
+    add(a, b)
+
+My first function
+"""
 function add(a,b)
     a + b
 end
