@@ -1,5 +1,34 @@
 using Allnix
 
+@testset "for" begin
+n = 100
+count = 10000000
+a::Float64 = 0.5
+x = Array{Float64, 1}(n)
+y = Array{Float64, 1}(n)
+z = Array{Float64, 1}(n)
+for i in 1:n
+    x[i] = i - 1
+    y[i] = 0.0
+    z[i] = 1.5 * (i+1)
+end
+
+d::Float64 = 1./13.
+println("for-loop")
+@timev for j in 1:count
+#     y = x/13.
+    @inbounds for i = 1:n
+        y[i] = x[i]/13. + z[i] - 10.
+        # if z[i] > 15.
+        #     y[i] = x[i]/13. + z[i] - 10.
+        # else
+        #     y[i] = x[i]/15. + z[i]
+        # end
+   end
+end
+println("y = $(y[n])")
+end
+
 # Test daxpy
 @testset "daxpy" begin
 n = 1000000
