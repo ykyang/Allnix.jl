@@ -27,8 +27,9 @@ end
 # package code goes here
 include("mod1ch2.jl")
 include("julia_doc.jl")
+include("blas.jl")
 
-@code_llvm loop(1000)
+#@code_llvm loop(1000)
 
 
 
