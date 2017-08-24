@@ -1,4 +1,36 @@
 using Allnix
+function test_condition(
+    count::Int64,
+    n::Int64,
+    x::Vector{Float64}, y::Vector{Float64}, z::Vector{Float64})
+    for j in 1:count
+        @inbounds for i = 1:n
+             if z[i] < 1500.
+                 y[i] = x[i]/13. + z[i] - 10.
+             else
+                 y[i] = x[i]/13. + z[i] + 10.
+             end
+        end
+    end
+end
+
+@testset "condition" begin
+n = 10000000
+count = 100
+a::Float64 = 0.5
+x = Array{Float64, 1}(n)
+y = Array{Float64, 1}(n)
+z = Array{Float64, 1}(n)
+for i in 1:n
+    x[i] = i - 1
+    y[i] = 0.0
+    z[i] = 1.5 * (i+1)
+end
+val, t, bytes, gctime, memallocs = @timed test_condition(1, n, x, y, z)
+println("test_condition: $t")
+val, t, bytes, gctime, memallocs = @timed test_condition(count, n, x, y, z)
+println("test_condition: $t")
+end
 
 @testset "for" begin
 n = 10000000
