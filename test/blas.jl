@@ -1,8 +1,8 @@
 using Allnix
 
 @testset "for" begin
-n = 100
-count = 10000000
+n = 10000000
+count = 100
 a::Float64 = 0.5
 x = Array{Float64, 1}(n)
 y = Array{Float64, 1}(n)
@@ -16,15 +16,17 @@ end
 d::Float64 = 1./13.
 println("for-loop")
 @timev for j in 1:count
-#     y = x/13.
-    @inbounds for i = 1:n
-        y[i] = x[i]/13. + z[i] - 10.
-        # if z[i] > 15.
-        #     y[i] = x[i]/13. + z[i] - 10.
-        # else
-        #     y[i] = x[i]/15. + z[i]
-        # end
-   end
+#     y = x/13. + z - 10.
+#     y .+= z
+#     y .-= 10.
+     @inbounds for i = 1:n
+#         y[i] = x[i]/13. + z[i] - 10.
+         if z[i] < 1500.
+             y[i] = x[i]/13. + z[i] - 10.
+         else
+             y[i] = x[i]/13. + z[i] + 10.
+         end
+    end
 end
 println("y = $(y[n])")
 end
