@@ -22,8 +22,8 @@ function run_xyz(
 end
 
 @testset "test_xyz" begin
-n = 10000000
-count = 100
+n = 1000000
+count = 1000
 a::Float64 = 0.5
 x = Array{Float64, 1}(n)
 y = Array{Float64, 1}(n)
@@ -36,6 +36,11 @@ end
 #val, t, bytes, gctime, memallocs = @timed run_xyz(1, n, x, y, z)
 #println("test_xyz: $t, y = $(y[n])")
 #val, t, bytes, gctime, memallocs = @timed run_xyz(count, n, x, y, z)
+
+# warm up
+val, t, bytes, gctime, memallocs = @timed run_xyz(n, x, y, z)
+println("test_xyz: $t, y = $(y[n])")
+
 val, t, bytes, gctime, memallocs = @timed for i in 1:count
     run_xyz(n, x, y, z)
 end
@@ -43,8 +48,8 @@ println("test_xyz: $t, y = $(y[n])")
 end
 
 @testset "test_condition" begin
-n = 10000000
-count = 100
+n = 1000000
+count = 1000
 a::Float64 = 0.5
 x = Array{Float64, 1}(n)
 y = Array{Float64, 1}(n)
@@ -57,6 +62,10 @@ end
 #val, t, bytes, gctime, memallocs = @timed run_condition(1, n, x, y, z)
 #println("test_condition: $t, y = $(y[n])")
 #val, t, bytes, gctime, memallocs = @timed run_condition(count, n, x, y, z)
+
+# warm up
+val, t, bytes, gctime, memallocs = @timed run_condition(n, x, y, z)
+println("test_condition: $t, y = $(y[n])")
 val, t, bytes, gctime, memallocs = @timed for i in 1:count
     run_condition(n, x, y, z)
 end
