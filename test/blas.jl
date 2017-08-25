@@ -1,58 +1,8 @@
 using Allnix
-function test_condition(
-    count::Int64,
+function run_condition(
     n::Int64,
     x::Vector{Float64}, y::Vector{Float64}, z::Vector{Float64})
-    for j in 1:count
-        @inbounds for i = 1:n
-             if z[i] < 1500.
-                 y[i] = x[i]/13. + z[i] - 10.
-             else
-                 y[i] = x[i]/13. + z[i] + 10.
-             end
-        end
-    end
-end
-
-@testset "condition" begin
-n = 10000000
-count = 100
-a::Float64 = 0.5
-x = Array{Float64, 1}(n)
-y = Array{Float64, 1}(n)
-z = Array{Float64, 1}(n)
-for i in 1:n
-    x[i] = i - 1
-    y[i] = 0.0
-    z[i] = 1.5 * (i+1)
-end
-val, t, bytes, gctime, memallocs = @timed test_condition(1, n, x, y, z)
-println("test_condition: $t")
-val, t, bytes, gctime, memallocs = @timed test_condition(count, n, x, y, z)
-println("test_condition: $t")
-end
-
-@testset "for" begin
-n = 10000000
-count = 100
-a::Float64 = 0.5
-x = Array{Float64, 1}(n)
-y = Array{Float64, 1}(n)
-z = Array{Float64, 1}(n)
-for i in 1:n
-    x[i] = i - 1
-    y[i] = 0.0
-    z[i] = 1.5 * (i+1)
-end
-
-d::Float64 = 1./13.
-println("for-loop")
-@timev for j in 1:count
-#     y = x/13. + z - 10.
-#     y .+= z
-#     y .-= 10.
-     @inbounds for i = 1:n
-#         y[i] = x[i]/13. + z[i] - 10.
+    @inbounds for i = 1:n
          if z[i] < 1500.
              y[i] = x[i]/13. + z[i] - 10.
          else
@@ -60,8 +10,60 @@ println("for-loop")
          end
     end
 end
-println("y = $(y[n])")
+
+function run_xyz(
+    n::Int64,
+    x::Vector{Float64}, y::Vector{Float64}, z::Vector{Float64}
+    )
+
+    @inbounds for i = 1:n
+         y[i] = x[i]/13. + z[i] - 10.
+    end
 end
+
+@testset "test_xyz" begin
+n = 10000000
+count = 100
+a::Float64 = 0.5
+x = Array{Float64, 1}(n)
+y = Array{Float64, 1}(n)
+z = Array{Float64, 1}(n)
+for i in 1:n
+    x[i] = i - 1
+    y[i] = 0.0
+    z[i] = 1.5 * (i+1)
+end
+#val, t, bytes, gctime, memallocs = @timed run_xyz(1, n, x, y, z)
+#println("test_xyz: $t, y = $(y[n])")
+#val, t, bytes, gctime, memallocs = @timed run_xyz(count, n, x, y, z)
+val, t, bytes, gctime, memallocs = @timed for i in 1:count
+    run_xyz(n, x, y, z)
+end
+println("test_xyz: $t, y = $(y[n])")
+end
+
+@testset "test_condition" begin
+n = 10000000
+count = 100
+a::Float64 = 0.5
+x = Array{Float64, 1}(n)
+y = Array{Float64, 1}(n)
+z = Array{Float64, 1}(n)
+for i in 1:n
+    x[i] = i - 1
+    y[i] = 0.0
+    z[i] = 1.5 * (i+1)
+end
+#val, t, bytes, gctime, memallocs = @timed run_condition(1, n, x, y, z)
+#println("test_condition: $t, y = $(y[n])")
+#val, t, bytes, gctime, memallocs = @timed run_condition(count, n, x, y, z)
+val, t, bytes, gctime, memallocs = @timed for i in 1:count
+    run_condition(n, x, y, z)
+end
+println("test_condition: $t, y = $(y[n])")
+end
+
+
 
 # Test daxpy
 @testset "daxpy" begin
