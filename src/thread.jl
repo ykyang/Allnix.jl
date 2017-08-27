@@ -36,7 +36,7 @@ end
 
 function driver()
     println("Thread count = $(Threads.nthreads())")
-    count = 1000
+    count = 1
     n::Int64 = 1000000
     a::Float64 = 0.5
     y::Array{Float64} = Array{Float64}(n)
@@ -44,7 +44,12 @@ function driver()
 
     init(n, x, y)
 
+    # - thread code is not vectorized
+    # - as seen in @code_llvm
+    # - and that might be the reason it is
+    # - slower than the single thread version
     @time for j in 1:count
+        #@code_llvm
         taxpy(n, a, x, y)
     end
 
@@ -53,6 +58,7 @@ function driver()
     init(n, x, y)
 
     @time for j in 1:count
+        #@code_llvm
         saxpy(n, a, x, y)
     end
 
