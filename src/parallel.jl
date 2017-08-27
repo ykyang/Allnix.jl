@@ -1,4 +1,4 @@
-@everywhere include("count_heads.jl")
+#@everywhere include("count_heads.jl")
 #a = @spawn count_heads(100000000)
 #b = @spawn count_heads(100000000)
 #println(fetch(a) + fetch(b))
@@ -22,7 +22,7 @@ function init(n::Int64, x::SharedArray{Float64}, y::SharedArray{Float64})
         y[i] = 1.0
     end
 end
-count = 10
+count = 1000
 n = 1000000
 y = SharedArray{Float64}(n)
 x = SharedArray{Float64}(n)
