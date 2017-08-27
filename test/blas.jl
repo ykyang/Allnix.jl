@@ -118,7 +118,7 @@ val, t, bytes, gctime, memallocs = @timed for i in 1:count
     Allnix.daxpy(a,x,y)
 end
 
-println("daxpy time: $t")
+println("daxpy time: $t, y = $(y[n])")
 # my Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz takes less than one second
 @test t <= 1.0
 end
