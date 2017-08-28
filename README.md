@@ -3,6 +3,13 @@
 Use ";" to switch to the shell mode.
 * `methodswith(type)`: Return an array of methods with an argument of type type.
 * `whos()`, `workspace()`, `reload("module name")`
+
+## Re-build System for the Hardware
+From [7 Julia Gotchas and How to Handle Them](http://www.stochasticlifestyle.com/7-julia-gotchas-handle/), do the following to re-build Julia to optimize for the hardware.
+```julia
+include(joinpath(dirname(JULIA_HOME),"share","julia","build_sysimg.jl")); build_sysimg(force=true)
+```
+
 ## Test
 Run tests using the following three options
 * From Julia REPL, run `Pkg.test("Allnix")` from package directory
