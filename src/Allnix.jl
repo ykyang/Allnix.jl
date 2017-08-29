@@ -28,6 +28,7 @@ end
 include("mod1ch2.jl")
 include("julia_doc.jl")
 include("blas.jl")
+include("Test.jl")
 
 #@code_llvm loop(1000)
 
