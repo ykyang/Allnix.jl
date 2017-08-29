@@ -18,6 +18,14 @@ Run tests using the following three options
 
 Use `≈` (type `\approx` and use tab complete) to compare floating numbers or `isapprox()`.
 
+## BenchmarkTools
+Use
+```julia
+t::BenchmarkTools.Trial = @benchmark sin(1)
+show(STDOUT, "text/plain", t)
+```
+to show the full report from code.
+
 ## Pakcages
 Use `Pkg.add("package name")` to install packages.  Some common packages
 * `Pkg.add("DataStructures")`
