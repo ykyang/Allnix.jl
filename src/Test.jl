@@ -25,6 +25,16 @@ function init(n::Int64)
     return x, y
 end
 
+function init{T}(x::Vector{T}, y::Vector{T})
+    n::Int64 = length(x)
+
+    for i in 1:n
+        x[i] = n
+        y[i] = n
+    end
+
+    return nothing
+end
 
 """
     init()
