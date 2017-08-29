@@ -21,31 +21,6 @@ function run_xyz(
     end
 end
 
-function test_condition()
-    n = 1000000
-    count = 1000
-    a::Float64 = 0.5
-    x = Array{Float64, 1}(n)
-    y = Array{Float64, 1}(n)
-    z = Array{Float64, 1}(n)
-    for i in 1:n
-        x[i] = i - 1
-        y[i] = 0.0
-        z[i] = 1.5 * (i+1)
-    end
-    #val, t, bytes, gctime, memallocs = @timed run_condition(1, n, x, y, z)
-    #println("test_condition: $t, y = $(y[n])")
-    #val, t, bytes, gctime, memallocs = @timed run_condition(count, n, x, y, z)
-
-    # warm up
-    val, t, bytes, gctime, memallocs = @timed run_condition(n, x, y, z)
-    println("test_condition: $t, y = $(y[n])")
-    val, t, bytes, gctime, memallocs = @timed for i in 1:count
-        run_condition(n, x, y, z)
-    end
-    println("test_condition: $t, y = $(y[n])")
-end
-
 @testset "test_xyz" begin
 n = 1000000
 count = 1000
@@ -96,11 +71,6 @@ val, t, bytes, gctime, memallocs = @timed for i in 1:count
 end
 println("test_condition: $t, y = $(y[n])")
 end
-
-@testset "test_condition2" begin
-    test_condition()
-end
-
 
 # Test daxpy
 @testset "daxpy" begin
