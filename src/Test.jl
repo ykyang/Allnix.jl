@@ -39,6 +39,7 @@ Populate `x, y` with random numbers.
 function init!{T}(x::Vector{T}, y::Vector{T})
     n::Int64 = length(x)
 
+    srand(17)
     rand!(x)
     rand!(y)
     # for i in 1:n
@@ -61,7 +62,8 @@ Populate `x, y` with random numbers between 1 and 10.
 """
 function init!{T <: Integer}(x::Vector{T}, y::Vector{T})
     n::Int64 = length(x)
-
+    
+    srand(17)
     rand!(x, 1:10)
     rand!(y, 1:10)
     # for i in 1:n
