@@ -15,7 +15,14 @@ end
 Template version of BLAS axpy: y = alpha*x + y
 """
 function axpy{T}(a::T, x::Vector{T}, y::Vector{T})
-    @inbounds for i in 1:length(x)
-        y[i] = a*x[i] + y[i]
-    end
+    # - This would do but slower - #
+    # y = a*x + y
+
+    # - This is equivalent to the for-loop below
+    @. y = a*x + y
+
+    # - Keep this for doc reason - #
+    # @inbounds for i in 1:length(x)
+    #     y[i] = a*x[i] + y[i]
+    # end
 end

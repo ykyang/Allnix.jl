@@ -3,6 +3,7 @@ module Test
 export init
 
 """
+# Deprecated
     init(n)
 
 Generate two `Vector{Float64}` with some values for use in
@@ -25,7 +26,17 @@ function init(n::Int64)
     return x, y
 end
 
-function init{T}(x::Vector{T}, y::Vector{T})
+"""
+    init!(x, y)
+
+Populate `x, y` with random numbers.
+
+# Arguments
+    `x::Vector{T}`: vector to be populated
+    `y::Vector{T}`: vector to be populated
+
+"""
+function init!{T}(x::Vector{T}, y::Vector{T})
     n::Int64 = length(x)
 
     rand!(x)
@@ -38,7 +49,17 @@ function init{T}(x::Vector{T}, y::Vector{T})
     return nothing
 end
 
-function init{T <: Integer}(x::Vector{T}, y::Vector{T})
+"""
+    init!(x, y)
+
+Populate `x, y` with random numbers between 1 and 10.
+
+# Arguments
+    `x::Vector{T<:Integer}`: vector to be populated
+    `y::Vector{T<:Integer}`: vector to be populated
+
+"""
+function init!{T <: Integer}(x::Vector{T}, y::Vector{T})
     n::Int64 = length(x)
 
     rand!(x, 1:10)
@@ -52,6 +73,7 @@ function init{T <: Integer}(x::Vector{T}, y::Vector{T})
 end
 
 """
+# Deprecated
     init()
 Generate two `Vector{Float64}` with a size of `1,000,000`.
 

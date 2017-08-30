@@ -1,5 +1,5 @@
 using Allnix: axpy
-using Allnix.Test: init
+using Allnix.Test: init!
 using BenchmarkTools
 
 
@@ -26,7 +26,7 @@ function run_axpy{T}(n::Int64, α::T)
     x = Vector{T}(n)
     y = Vector{T}(n)
 
-    b = @benchmarkable axpy($α, $x, $y) setup=(init($x,$y))
+    b = @benchmarkable axpy($α, $x, $y) setup=(init!($x,$y))
     t = BenchmarkTools.run(b, samples = 3)
     show(STDOUT, "text/plain", t)
     print("\n\n")
