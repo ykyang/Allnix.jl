@@ -19,7 +19,9 @@ Run tests using the following three options
 Use `≈` (type `\approx` and use tab complete) to compare floating numbers or `isapprox()`.
 
 ## BenchmarkTools
-Use
+Install `Pkg.add("BenchmarkTools")`
+
+Usage
 ```julia
 t::BenchmarkTools.Trial = @benchmark sin(1)
 show(STDOUT, "text/plain", t)
