@@ -28,10 +28,25 @@ end
 function init{T}(x::Vector{T}, y::Vector{T})
     n::Int64 = length(x)
 
-    for i in 1:n
-        x[i] = n
-        y[i] = n
-    end
+    rand!(x)
+    rand!(y)
+    # for i in 1:n
+    #     x[i] = n
+    #     y[i] = n
+    # end
+
+    return nothing
+end
+
+function init{T <: Integer}(x::Vector{T}, y::Vector{T})
+    n::Int64 = length(x)
+
+    rand!(x, 1:10)
+    rand!(y, 1:10)
+    # for i in 1:n
+    #     x[i] = n
+    #     y[i] = n
+    # end
 
     return nothing
 end
