@@ -3,23 +3,9 @@ using Allnix.Test: init!
 using BenchmarkTools
 using Base.Test
 
-
-# b = @benchmarkable Allnix.daxpy(0.5, xy[1], xy[2]) setup=(xy = init{Float64}())
-# t = BenchmarkTools.run(b, samples = 3)
-# show(STDOUT, "text/plain", t)
-# println()
-
-# println(y[n])
-# b = @benchmark Allnix.daxpy($a,$x,$y)
-# println(b)
-# println(y[n])
-#
-# println(minimum(b))
-#
-# dump(b)
-# end
-
-#benchmar()
+function sample_count()
+    return Int64(100)
+end
 
 function run_axpy{T}(n::Int64, α::T)
 #    t = typeof(α)
@@ -35,7 +21,7 @@ function run_axpy{T}(n::Int64, α::T)
     ans_n = α*x[n] + y[n]
 
     b = @benchmarkable axpy($α, $x, $y) setup=(init!($x,$y))
-    t = BenchmarkTools.run(b, samples = 3)
+    t = BenchmarkTools.run(b, samples = sample_count())
     show(STDOUT, "text/plain", t)
     print("\n\n")
 
@@ -74,7 +60,7 @@ function run_axpy_ifelse(n::Int64, α::Float64)
 
 
     b = @benchmarkable axpy_ifelse($α, $x, $y) setup(init!($x, $y))
-    t = BenchmarkTools.run(b, samples = 3)
+    t = BenchmarkTools.run(b, samples = sample_count())
     show(STDOUT, "text/plain", t)
     print("\n\n")
 
