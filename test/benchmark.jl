@@ -58,10 +58,28 @@ function run_axpy_ifelse(n::Int64, α::Float64)
     x = Vector{Float64}(n)
     y = Vector{Float64}(n)
 
+    # - Calculate the answer - #
+    init!(x, y)
+    if x[1] < 0.5
+        ans_1 = α*x[1] + y[1]
+    else
+        ans_1 = α*x[1] - y[1]
+    end
+    if x[n] < 0.5
+        ans_n = α*x[n] + y[n]
+    else
+        ans_n = α*x[n] - y[n]
+    end
+
+
+
     b = @benchmarkable axpy_ifelse($α, $x, $y) setup(init!($x, $y))
     t = BenchmarkTools.run(b, samples = 3)
     show(STDOUT, "text/plain", t)
     print("\n\n")
+
+    @test ans_1 == y[1]
+    @test ans_n == y[n]
 end
 
 function run()
