@@ -14,7 +14,8 @@ end
 
 Template version of BLAS axpy: y = alpha*x + y
 """
-function axpy{T}(a::T, x::Vector{T}, y::Vector{T})
+function axpy(a::T, x::Vector{T}, y::Vector{T}) where 
+    {T <: Real}
     # - This would do but slower - #
     # y = a*x + y
 
