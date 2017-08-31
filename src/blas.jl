@@ -20,7 +20,9 @@ function axpy(a::T, x::Vector{T}, y::Vector{T}) where
     # y = a*x + y
 
     # - This is equivalent to the for-loop below
-    @. y = a*x + y
+    @. y = a*x + y # This is eaiser to read
+    # or
+    #y .= a.*x .+ y
 
     # - Keep this for doc reason - #
     # @inbounds for i in 1:length(x)
